@@ -1,0 +1,23 @@
+name: portal-cipeundeuy-dev
+
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: portal_desa
+      POSTGRES_USER: portal
+      POSTGRES_PASSWORD: portal-dev
+      TZ: Asia/Jakarta
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U portal -d portal_desa"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_dev_data:
